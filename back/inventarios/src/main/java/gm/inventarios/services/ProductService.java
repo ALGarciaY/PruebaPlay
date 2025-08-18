@@ -8,6 +8,7 @@ public interface ProductService {
     List<Product> listAllProducts();
     Product selectOneById(Integer idProduct);
     Product saveProduct(Product product);
+    String saveBuy(Integer idProduct, Integer quantity);
     Product updateProduct(Integer id, Product product);
     void deleteProduct(Integer idProduct);
 }
