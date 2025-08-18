@@ -31,33 +31,28 @@ Antes de iniciar, asegúrate de tener instalado:
 
 1. **Clonar el repositorio**
    ```bash
-   git clone <URL_REPOSITORIO>
-   cd <NOMBRE_PROYECTO>
+   git clone https://github.com/ALGarciaY/PruebaPlay.git
+   cd PruebaPlay
    ```
 
-2. **Configurar el backend**  
-   Editar el archivo `application.properties` en Spring Boot con la conexión a PostgreSQL (usuario/contraseña/URL).
+2. **Crear instancia de postgres en docker**
+   ```bash
+     docker-compose up -d 
+   ```
 
 3. **Instalar dependencias del backend**
    ```bash
+   cd back
    mvn clean install
    ```
 
 4. **Instalar dependencias del frontend**
    ```bash
-   cd frontend
+   cd front
    npm install
    ```
 
-5. **Construir la(s) imagen(es) Docker**
-   ```bash
-   docker-compose build
-   ```
 
-6. **Levantar los servicios**
-   ```bash
-   docker-compose up
-   ```
 
 ---
 
@@ -67,7 +62,7 @@ Antes de iniciar, asegúrate de tener instalado:
 - Backend disponible en: **http://localhost:8080**
 
 ### 🔑 Funcionalidades
-- **Crear producto:** Agregar nombre, stock y precio.  
+- **Crear producto:** Agregar nombre, stock, precio y descripción.  
 - **Actualizar producto:** Editar información existente.  
 - **Eliminar producto:** Quitar un producto del inventario (con confirmación).  
 - **Vender producto:** Abrir el modal, ingresar cantidad y confirmar; descuenta del stock.
@@ -80,12 +75,8 @@ Antes de iniciar, asegúrate de tener instalado:
 flowchart LR
     A[Frontend - Angular 17] -->|HTTP/REST| B[Backend - Spring Boot]
     B -->|JPA/Hibernate| C[(PostgreSQL 15)]
-    subgraph Infraestructura
-        D[Docker Compose]
-    end
-    D --> A
-    D --> B
-    D --> C
+    C -->|respuesta| B[Backend - Spring Boot]
+    B -->|Respuesta HTTP| A[Frontend - Angular 17]
 ```
 
 ---
