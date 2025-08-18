@@ -1,0 +1,98 @@
+import { Component } from '@angular/core';
+import { Product } from '../../product';
+import { ProductService } from '../../product.service';
+import {
+  ModalSalesComponent,
+  ModalSalesData,
+} from '../modal-sales/modal-sales.component';
+import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
+
+@Component({
+  selector: 'app-product-list',
+  templateUrl: './product-list.component.html',
+})
+export class ProductListComponent {
+  products: Product[];
+  hasProducts: boolean = false;
+  http: any;
+
+  constructor(
+    private productService: ProductService,
+    private dialog: MatDialog
+  ) {}
+
+  ngOnInit() {
+    this.getProducts();
+  }
+
+  private getProducts() {
+    this.productService.getProductList().subscribe(
+      (data) => {
+        this.products = data;
+        this.hasProducts = this.products.length > 0;
+      },
+      (error) => {
+        console.error('Error fetching products:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'No se pudieron cargar los productos',
+        });
+      }
+    );
+  }
+
+  editProduct(id: number) {
+    window.location.href = '/editProduct/' + id;
+  }
+
+  deleteProduct(id: number) {
+    Swal.fire({
+      title: '¿Seguro que desea eliminar el producto?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminarlo',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.productService.deleteProduct(id).subscribe((data) => {
+          console.log(data);
+          this.getProducts();
+          Swal.fire('Eliminado', 'El producto ha sido eliminado', 'success');
+        });
+      }
+    });
+  }
+
+  buyProduct(productId: number) {
+    const prod = this.products.find((p) => p.id === productId);
+    if (!prod) return;
+
+    if (this.dialog.openDialogs.length > 0) return;
+
+    this.dialog
+      .open(ModalSalesComponent, {
+        panelClass: 'custom-dialog-container',
+        disableClose: true,
+        data: { variable: prod.name, min: 1, max: prod.stock, idProduct: prod.id, name: prod.name },
+      })
+      .afterClosed()
+      .subscribe((cantidad) => {
+       
+        if (typeof cantidad !== 'number') return;
+
+        // (A) Actualiza UI localmente (opcional)
+        if (cantidad > prod.stock) {
+          alert(
+            `No puedes vender ${cantidad}; solo hay ${prod.stock} en stock`
+          );
+          return;
+        }
+        
+        this.getProducts();
+        
+      });
+  }
+}

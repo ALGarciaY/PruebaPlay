@@ -45,6 +45,13 @@ public class ProductController {
         return ResponseEntity.ok().body(productSaved);
     }
 
+    @PostMapping("/saveBuy")
+    public ResponseEntity<Map<String, Object>> saveBuy(@RequestParam Integer idProduct, @RequestParam Integer quantity) {
+        log.info("Producto comprado con id: " + idProduct + " y cantidad: " + quantity);
+        String response = productService.saveBuy(idProduct, quantity);
+        return ResponseEntity.ok(Map.of("message", response, "ok", true));
+    }
+
     @PutMapping("/updateProduct/{idProduct}")
     public ResponseEntity<Product> updateProduct(@PathVariable Integer idProduct, @RequestBody Product product) {
         Product productUpdated = productService.updateProduct(idProduct, product);
