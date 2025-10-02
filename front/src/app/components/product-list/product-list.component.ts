@@ -3,7 +3,6 @@ import { Product } from '../../product';
 import { ProductService } from '../../product.service';
 import {
   ModalSalesComponent,
-  ModalSalesData,
 } from '../modal-sales/modal-sales.component';
 import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
@@ -83,7 +82,7 @@ export class ProductListComponent {
        
         if (typeof cantidad !== 'number') return;
 
-        // (A) Actualiza UI localmente (opcional)
+        //  Actualiza UI localmente
         if (cantidad > prod.stock) {
           alert(
             `No puedes vender ${cantidad}; solo hay ${prod.stock} en stock`

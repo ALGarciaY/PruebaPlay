@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="product-list.component.css">
 <div class="container">
     <div class="container text-center" style="margin: 40px">
-        <h1>Sistema de Inventarios</h1>
+        <h1>Inventario</h1>
         
     </div>
     <div *ngIf="!hasProducts"  class="alert alert-warning text-center" role="alert">
@@ -12,8 +12,8 @@
         <thead class="table-dark">
             <tr>
                 <th class="text-center" scope="col">id</th>
-                <th class="text-center" scope="col">Descripcion</th>
                 <th class="text-center" scope="col">Nombre</th>
+                <th class="text-center" scope="col">Descripcion</th>
                 <th class="text-center" scope="col">Precio</th>
                 <th class="text-center" scope="col">Existencia</th>
                 <th></th>
@@ -22,8 +22,8 @@
         <tbody>
             <tr *ngFor="let product of products">
                 <th class="text-center" scope="row">{{product.id}}</th>
-                <td class="text-center">{{product.description}}</td>
                 <td class="text-center">{{product.name}}</td>
+                <td class="text-center">{{product.description}}</td>
                 <td class="text-center">{{product.price}}</td>
                 <td class="text-center">{{product.stock}}</td>
                 <td class="text-center">

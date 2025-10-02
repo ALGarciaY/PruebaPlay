@@ -4,7 +4,7 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditProductComponent } from './components/edit-product/edit-product.component';
@@ -15,6 +15,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { LoginComponent } from './components/login/login.component';
+import { BuyListComponent } from './components/buy-list/buy-list.component';
+
 
 @NgModule({
   declarations: [
@@ -22,7 +25,9 @@ import { MatButtonModule } from '@angular/material/button';
     ProductListComponent,
     AddProductComponent,
     EditProductComponent,
-    ModalSalesComponent 
+    ModalSalesComponent,
+    LoginComponent,
+    BuyListComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +42,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    provideHttpClient(withFetch())   // 👈 aquí habilitamos fetch
   ],
   bootstrap: [AppComponent]
 })
