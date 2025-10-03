@@ -9,17 +9,18 @@ import { BuyListComponent } from './components/buy/buy-list/buy-list.component';
 import { UserListComponent } from './components/user/user-list/user-list.component';
 import { EditUserComponent } from './components/user/edit-user/edit-user.component';
 import { AddUserComponent } from './components/user/add-user/add-user.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'products', component: ProductListComponent },
-  { path: 'addProduct', component: AddProductComponent },
-  { path: 'editProduct/:id', component: EditProductComponent },
-  { path: 'pruebaModal', component: ModalSalesComponent },
-  { path: 'buys', component: BuyListComponent },
-  { path: 'users', component: UserListComponent },
-  { path: 'addUser', component: AddUserComponent },
-  { path: 'editUser/:id', component: EditUserComponent }
+  { path: 'products', component: ProductListComponent, canActivate: [AuthGuard] },
+  { path: 'addProduct', component: AddProductComponent, canActivate: [AuthGuard] },
+  { path: 'editProduct/:id', component: EditProductComponent, canActivate: [AuthGuard] },
+  { path: 'pruebaModal', component: ModalSalesComponent, canActivate: [AuthGuard] },
+  { path: 'buys', component: BuyListComponent, canActivate: [AuthGuard] },
+  { path: 'users', component: UserListComponent, canActivate: [AuthGuard] },
+  { path: 'addUser', component: AddUserComponent, canActivate: [AuthGuard] },
+  { path: 'editUser/:id', component: EditUserComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

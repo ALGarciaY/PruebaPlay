@@ -14,17 +14,22 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onLogin() {
+    if (!this.userName || !this.password) {
+    alert('Por favor ingresa usuario y contraseña.');
+    return;
+    }
     this.authService.login(this.userName, this.password).subscribe({
       next: (response) => {
-        if (response) {
-          this.router.navigate(['/products']);
-        } else {
-          alert('Credenciales incorrectas, intenta de nuevo.');
-        }
+        this.authService.saveToken(response);
+        this.router.navigate(['/products']);
       },
-      error: () => {
+      error: (err) => {
+      if (err.status === 401) {
+        alert('Credenciales incorrectas, intenta de nuevo.');
+      } else {
         alert('Error al conectar con el servidor');
       }
+    }
     });
   }
 }
