@@ -20,7 +20,9 @@ public class Buy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer idProduct;
+    private String nameProduct;
     private Integer quantity;
     private LocalDate date;
+    private Double unitPrice;
     private Double totalPrice;
 }

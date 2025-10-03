@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-    Product findOneById(Integer idProduct);
+    Product findProductById(Integer idProduct);
 
     @Modifying
     @Transactional

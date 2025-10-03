@@ -6,15 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private UserRepository userRepository;
 
     @Override
-    public User login(String username, String password) {
-        return userRepository.findByUsername(username)
-                .filter(user -> user.getPassword().equals(password))
-                .orElseThrow(() -> new RuntimeException("Credenciales inválidas"));
+    public User login(String userName, String password) {
+        User user  = userRepository.findByUserName(userName);
+        if (!user.getPassword().equals(password) || !user.getUserName().equals(userName)) {
+              throw new RuntimeException("Credenciales inválidas");
+        }
+        return user;
     }
 }
