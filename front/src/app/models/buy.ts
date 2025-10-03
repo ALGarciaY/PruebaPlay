@@ -1,9 +1,8 @@
-import { Product } from "./product";
-
 export interface Buy {
   id: number;
-  product?: Product;   // relación con el producto
+  nameProduct: String;
   quantity: number;
   date: string;
+  unitPrice: number;
   totalPrice: number;
 }

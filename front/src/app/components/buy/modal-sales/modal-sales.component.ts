@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ProductService } from '../../product.service';
 import Swal from 'sweetalert2';
+import { BuyService } from '../../../services/buy.service';
 
 export interface ModalSalesData {
   variable: string;
@@ -33,7 +33,7 @@ export class ModalSalesComponent {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<ModalSalesComponent, number>,
-    private service: ProductService,
+    private service: BuyService,
     @Inject(MAT_DIALOG_DATA) public data: ModalSalesData
   ) {}
 

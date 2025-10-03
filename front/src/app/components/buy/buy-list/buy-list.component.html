@@ -28,9 +28,9 @@
       <tr *ngFor="let buy of buys">
         <td class="text-center">{{ buy.id }}</td>
         <td class="text-center">{{ buy.date | date : "dd/MM/yyyy" }}</td>
-        <td class="text-center">{{ buy.product?.name }}</td>
+        <td class="text-center">{{ buy.nameProduct}}</td>
         <td class="text-center">{{ buy.quantity }}</td>
-        <td class="text-center">{{ buy.product?.price | currency }}</td>
+        <td class="text-center">{{ buy.unitPrice | currency }}</td>
         <td class="text-center">{{ buy.totalPrice | currency }}</td>
       </tr>
     </tbody>

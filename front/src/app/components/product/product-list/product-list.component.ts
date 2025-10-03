@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Product } from '../../product';
-import { ProductService } from '../../product.service';
+import { Product } from '../../../models/product';
+import { ProductService } from '../../../services/product.service';
 import {
   ModalSalesComponent,
-} from '../modal-sales/modal-sales.component';
+} from '../../buy/modal-sales/modal-sales.component';
 import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
 

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { Product } from '../../product';
-import { ProductService } from '../../product.service';
-import { Router } from 'express';
+import { Product } from '../../../models/product';
+import { ProductService } from '../../../services/product.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -54,7 +53,6 @@ export class AddProductComponent {
       if (result.isConfirmed) {
         this.productService.addProduct(this.product).subscribe(
           data => {
-            console.log(data);
             Swal.fire(
               'Guardado',
               'El producto ha sido agregado correctamente',

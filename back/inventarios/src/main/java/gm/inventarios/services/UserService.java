@@ -1,2 +1,2 @@
-package gm.inventarios.services;public class UserService {
+package gm.inventarios.services;public interface UserService {
 }

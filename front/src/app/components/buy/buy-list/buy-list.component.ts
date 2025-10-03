@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BuyService } from '../../buy.service';
-import { Buy } from '../../buy';
+import { Buy } from '../../../models/buy';
+import { BuyService } from '../../../services/buy.service';
 
 @Component({
   selector: 'app-buy-list',
