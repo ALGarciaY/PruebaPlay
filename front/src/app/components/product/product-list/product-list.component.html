@@ -36,5 +36,9 @@
             </tr>
         </tbody>
     </table>
-    <a type="button" *ngIf="hasProducts" class="btn btn-success btn-circle ml-auto mr-3" href="/addProduct">+</a>
+  <button
+  type="button"
+  *ngIf="hasProducts"
+  class="btn btn-success btn-circle ml-auto mr-3"
+  (click)="addProduct()"> + </button>
 </div>

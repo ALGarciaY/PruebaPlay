@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,11 @@ export class RoleGuard implements CanActivate {
 
     // Si el rol no está dentro de los permitidos
     if (!expectedRoles.includes(userRole)) {
-      alert('No tienes permisos para acceder a esta ruta.');
-
+      Swal.fire({
+        title: 'Error',
+        text: 'No cuentas con permisos para realizar esta acción',
+        icon: 'error',
+      });
       // Redirige al inicio en lugar del login
       this.router.navigate(['/products']);
       return false;

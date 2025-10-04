@@ -1,3 +1,4 @@
+import { AuthService } from './../../../services/auth.service';
 import { Component } from '@angular/core';
 import { Product } from '../../../models/product';
 import { ProductService } from '../../../services/product.service';
@@ -6,6 +7,7 @@ import {
 } from '../../buy/modal-sales/modal-sales.component';
 import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-product-list',
@@ -17,6 +19,7 @@ export class ProductListComponent {
   http: any;
 
   constructor(
+    private authService: AuthService,
     private productService: ProductService,
     private dialog: MatDialog
   ) {}
@@ -43,10 +46,41 @@ export class ProductListComponent {
   }
 
   editProduct(id: number) {
+    const role = this.authService.getUserRole();
+      if (role !== 'Administrador') {
+        Swal.fire({
+          title: 'Error',
+          text: 'No cuentas con permisos para realizar esta acción',
+          icon: 'error',
+        });
+        return;
+      }
     window.location.href = '/editProduct/' + id;
   }
 
+  addProduct(){
+    const role = this.authService.getUserRole();
+      if (role !== 'Administrador') {
+        Swal.fire({
+          title: 'Error',
+          text: 'No cuentas con permisos para realizar esta acción',
+          icon: 'error',
+        });
+        return;
+      }
+    window.location.href = '/addProduct';
+  }
+
   deleteProduct(id: number) {
+    const role = this.authService.getUserRole();
+      if (role !== 'Administrador') {
+        Swal.fire({
+          title: 'Error',
+          text: 'No cuentas con permisos para realizar esta acción',
+          icon: 'error',
+        });
+        return;
+      }
     Swal.fire({
       title: '¿Seguro que desea eliminar el producto?',
       icon: 'warning',
@@ -74,8 +108,10 @@ export class ProductListComponent {
     this.dialog
       .open(ModalSalesComponent, {
         panelClass: 'custom-dialog-container',
+        width: '55%',
         disableClose: true,
-        data: { variable: prod.name, min: 1, max: prod.stock, idProduct: prod.id, name: prod.name },
+        position: { top: '30vh', left: '-10vh' }, 
+        data: { variable: prod.name, min: 1, max: prod.stock, idProduct: prod.id, name: prod.name, price: prod.price },
       })
       .afterClosed()
       .subscribe((cantidad) => {

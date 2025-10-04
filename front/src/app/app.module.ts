@@ -50,7 +50,7 @@ import { UserListComponent } from './components/user/user-list/user-list.compone
   ],
   providers: [
     provideClientHydration(),
-    provideHttpClient(withFetch())   // 👈 aquí habilitamos fetch
+    provideHttpClient(withFetch())
   ],
   bootstrap: [AppComponent]
 })

@@ -16,10 +16,10 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User loginRequest) {
+    public ResponseEntity<?> login(@RequestBody User loginRequest) {
         try {
-            authService.login(loginRequest.getUserName(), loginRequest.getPassword());
-            return ResponseEntity.ok("Login exitoso");
+            User user = authService.login(loginRequest.getUserName(), loginRequest.getPassword());
+            return ResponseEntity.ok(user); // 🔥 devolvemos el usuario con su rol
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }

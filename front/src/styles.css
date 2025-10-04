@@ -56,6 +56,9 @@
   border-radius: .5rem;
   max-width: 500px;
   margin: auto;
+  font-size: 18px;
+  font-weight: 500;
+  color: rgba(0,0,0,0.72);
 }
 
 .cdk-global-overlay-wrapper {
@@ -65,4 +68,3 @@
     margin-left: 50vh;
     align-items: center;
 }
-

@@ -10,7 +10,8 @@ export interface ModalSalesData {
   min?: number;
   max?: number;
   idProduct?: number;
-  name?: string; 
+  name?: string;
+  price?: number;
 }
 
 @Component({
@@ -29,6 +30,7 @@ export class ModalSalesComponent {
       ],
     ],
   });
+
   router: any;
 
   constructor(
@@ -43,7 +45,6 @@ export class ModalSalesComponent {
   }
 
   vender() {
-
     const { idProduct } = this.data;
 
     if (!idProduct) {
@@ -54,27 +55,35 @@ export class ModalSalesComponent {
     if (this.form.valid) {
       const cantidad = this.form.value.cantidad!;
       const producto = this.data.name;
+      const precioUnitario = this.data.price ?? 0;
+      const total = precioUnitario * cantidad;
 
       Swal.fire({
         title: `¿Seguro que desea vender ${cantidad} unidades de ${producto}?`,
+        html: `
+          <strong>Precio unitario:</strong> $${precioUnitario.toLocaleString()} <br>
+          <strong>Total:</strong> $${total.toLocaleString()}
+        `,
         icon: 'question',
         showCancelButton: true,
         confirmButtonText: 'Sí, vender',
         cancelButtonText: 'Cancelar',
         confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33'
+        cancelButtonColor: '#d33',
       }).then((result) => {
         if (result.isConfirmed) {
-          //Si confirma, realiza la venta
           this.service.saveBuyProduct(idProduct, cantidad).subscribe({
             next: (response) => {
               Swal.fire({
                 title: 'Venta exitosa',
-                text: `Se han vendido ${cantidad} unidades de ${producto}.`,
+                html: `
+                  Se han vendido ${cantidad} unidades de <b>${producto}</b>.<br>
+                  <strong>Total recibido:</strong> $${total.toLocaleString()}
+                `,
                 icon: 'success',
               }).then(() => {
                 this.dialogRef.close(cantidad);
-                this.router.navigate(['/products']); //Redirige al listado
+                this.router.navigate(['/products']); // Redirige al listado
               });
             },
             error: (error) => {
@@ -83,10 +92,9 @@ export class ModalSalesComponent {
                 text: 'No se pudo completar la venta.',
                 icon: 'error',
               });
-            }
+            },
           });
         } else if (result.dismiss === Swal.DismissReason.cancel) {
-          //Si cancela, cierra el modal y redirige
           this.dialogRef.close();
           this.router.navigate(['/products']);
         }
