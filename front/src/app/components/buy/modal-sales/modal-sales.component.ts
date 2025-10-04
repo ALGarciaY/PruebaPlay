@@ -29,6 +29,7 @@ export class ModalSalesComponent {
       ],
     ],
   });
+  router: any;
 
   constructor(
     private fb: FormBuilder,
@@ -51,30 +52,45 @@ export class ModalSalesComponent {
     }
 
     if (this.form.valid) {
-      this.service
-        .saveBuyProduct(idProduct, this.form.value.cantidad!)
-        .subscribe({
-          next: (response) => {
-            setTimeout(() => {
+      const cantidad = this.form.value.cantidad!;
+      const producto = this.data.name;
+
+      Swal.fire({
+        title: `¿Seguro que desea vender ${cantidad} unidades de ${producto}?`,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, vender',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          //Si confirma, realiza la venta
+          this.service.saveBuyProduct(idProduct, cantidad).subscribe({
+            next: (response) => {
               Swal.fire({
                 title: 'Venta exitosa',
-                text: `Se han vendido ${this.form.value.cantidad} unidades de ${this.data.name}.`,
+                text: `Se han vendido ${cantidad} unidades de ${producto}.`,
                 icon: 'success',
+              }).then(() => {
+                this.dialogRef.close(cantidad);
+                this.router.navigate(['/products']); //Redirige al listado
               });
-            });
-            
-          },
-          error: (error) => {
-            
-            Swal.fire({
-              title: 'Error',
-              text: 'No se pudo completar la venta.',
-              icon: 'error',
-            });
-          }
-        });
-
-      this.dialogRef.close(this.form.value.cantidad!);
+            },
+            error: (error) => {
+              Swal.fire({
+                title: 'Error',
+                text: 'No se pudo completar la venta.',
+                icon: 'error',
+              });
+            }
+          });
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          //Si cancela, cierra el modal y redirige
+          this.dialogRef.close();
+          this.router.navigate(['/products']);
+        }
+      });
     }
   }
 }

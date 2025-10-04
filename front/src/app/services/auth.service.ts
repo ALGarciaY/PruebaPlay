@@ -15,24 +15,41 @@ export class AuthService {
   }
 
   login(userName: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, { userName, password }, { responseType: 'text' });
+    return this.http.post(`${this.apiUrl}/login`, { userName, password });
   }
 
-  saveToken(token: string) {
+  saveUser(user: any) {
     if (this.isBrowser) {
-      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
     }
+  }
+
+  getUser() {
+    if (this.isBrowser) {
+      const user = localStorage.getItem('user');
+      return user ? JSON.parse(user) : null;
+    }
+    return null;
   }
 
   logout() {
-  localStorage.removeItem('token');  //elimina el token
-}
-
+    if (this.isBrowser) {
+      localStorage.removeItem('user'); //elimina sesión
+    }
+  }
 
   isLoggedIn(): boolean {
     if (this.isBrowser) {
-      return !!localStorage.getItem('token');
+      return !!localStorage.getItem('user'); //no hay sesion iniciada
     }
-    return false; //en el servidor no hay sesión
+    return false;
+  }
+
+  getUserRole(): string | null {
+    if (this.isBrowser) {
+      const user = this.getUser();
+      return user?.role || null; // lee el rol del usuario guardado
+    }
+    return null;
   }
 }

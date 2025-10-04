@@ -10,17 +10,18 @@ import { UserListComponent } from './components/user/user-list/user-list.compone
 import { EditUserComponent } from './components/user/edit-user/edit-user.component';
 import { AddUserComponent } from './components/user/add-user/add-user.component';
 import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'products', component: ProductListComponent, canActivate: [AuthGuard] },
-  { path: 'addProduct', component: AddProductComponent, canActivate: [AuthGuard] },
-  { path: 'editProduct/:id', component: EditProductComponent, canActivate: [AuthGuard] },
-  { path: 'pruebaModal', component: ModalSalesComponent, canActivate: [AuthGuard] },
-  { path: 'buys', component: BuyListComponent, canActivate: [AuthGuard] },
-  { path: 'users', component: UserListComponent, canActivate: [AuthGuard] },
-  { path: 'addUser', component: AddUserComponent, canActivate: [AuthGuard] },
-  { path: 'editUser/:id', component: EditUserComponent, canActivate: [AuthGuard] }
+  { path: 'products', component: ProductListComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['Administrador', 'Cajero'] }  },
+  { path: 'addProduct', component: AddProductComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['Administrador'] }  },
+  { path: 'editProduct/:id', component: EditProductComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['Administrador'] }  },
+  { path: 'pruebaModal', component: ModalSalesComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['Administrador'] }  },
+  { path: 'buys', component: BuyListComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['Administrador', 'Cajero'] }  },
+  { path: 'users', component: UserListComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['Administrador'] } },
+  { path: 'addUser', component: AddUserComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['Administrador'] }  },
+  { path: 'editUser/:id', component: EditUserComponent, canActivate: [AuthGuard, RoleGuard], data: { roles: ['Administrador'] }  },
 ];
 
 @NgModule({

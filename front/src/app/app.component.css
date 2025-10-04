@@ -9,3 +9,7 @@
 .navbar .btn-login:hover {
   background-color: #cc5200; /* tono más oscuro al pasar el mouse */
 }
+
+.user-info {
+  margin-right: 20px;
+}
